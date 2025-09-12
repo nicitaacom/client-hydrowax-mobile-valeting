@@ -1,28 +1,16 @@
-import { createClient } from "@supabase/supabase-js"
-import moment from "moment-timezone"
-
 import { useAppointmentStore } from "../useAppointmentStore"
 import { convertCurrentToTargetTimezone } from "../utils/convertCurrentToTargetTimezone"
 import { formatedDateTimeFn } from "../utils/formatedDateTimeFn"
-import { sendEmailAction } from "../actions/sendEmailAction"
-import { scheduleEmailNotification } from "../actions/scheduleEmailNtfcnAction"
+import { scheduleSMSNtfcnAction } from "../actions/scheduleSMSNtfcnAction"
 import { IDBAppointment } from "../types/IDBAppointment"
 import { updateDBAppointmentsAction } from "../actions/updateAppointmentsAction"
+import { deleteSMSNtfcnAction } from "../actions/deleteSMSNtfcnAction"
+import { sendImmediateSMSAction } from "../actions/sendImmediateSMSAction"
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
-
-export async function rescheduleAppointmentFn(id: string) {
+export async function rescheduleAppointmentFn(id: string, sendNotificationTo?: string) {
   const { firstName, phone, email, appointmentNote } = useAppointmentStore.getState()
-  const {
-    sendNotificationTo,
-    inputNotificationTo,
-    channel,
-    userId,
-    selectedDate,
-    selectedTime,
-    selectedTimezone,
-    setError,
-  } = useAppointmentStore.getState()
+  const { inputNotificationTo, channel, userId, selectedDate, selectedTime, selectedTimezone, setError } =
+    useAppointmentStore.getState()
 
   const atMSK = convertCurrentToTargetTimezone(selectedTime, selectedTimezone, "Europe/Moscow")
 
@@ -34,17 +22,18 @@ export async function rescheduleAppointmentFn(id: string) {
   message += `Where: ${channel === "google-meets" ? '<a href="https://meet.google.com/yiy-pbnd-ygo?pli=1">google-meets</a>' : channel}\n`
 
   try {
-    // Assuming sendTelegramMessageAction and scheduleTgNtfctnAction are implemented elsewhere
-    await sendEmailAction(message)
-    const response = await scheduleEmailNotification(
-      message,
-      selectedDate,
-      atMSK,
-      channel,
-      sendNotificationTo,
-      inputNotificationTo,
-    )
-    if (typeof response === "string") throw Error(response)
+    // 1. Notify about rebooking with immediate SMS
+    const rebookMsg = `Appointment rebooked: ${message}`
+    const notifyResp = await sendImmediateSMSAction(sendNotificationTo!, rebookMsg)
+    if (typeof notifyResp === "string") throw Error(notifyResp)
+
+    // 2. Remove old SMS notifications
+    const deleteResp = await deleteSMSNtfcnAction(id)
+    if (typeof deleteResp === "string" && deleteResp.includes("Error")) throw Error(deleteResp)
+
+    // 3. Insert new SMS notification
+    const scheduleResp = await scheduleSMSNtfcnAction(message, selectedDate, atMSK, channel, sendNotificationTo, id)
+    if (typeof scheduleResp === "string") throw Error(scheduleResp)
 
     if (!selectedDate) throw Error("It's no selected date")
     if (!selectedTime) throw Error("It's no selected time")

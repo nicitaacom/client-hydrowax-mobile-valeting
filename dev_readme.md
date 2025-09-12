@@ -2,10 +2,13 @@ This project created for "Hydrowax Mobile Valeting" business
 Agreement: teseimonial
 
 TODO:
-Tos and Privacy Policy
-Replace favicon
-Other // TODO
+Update .env.local
+
 add resend API key in supabase - https://i.imgur.com/6EV4HjC.png
+
+This project specific TODO:
+dark/light mode
+SMS once booked
 
 Checklist:
 package.json

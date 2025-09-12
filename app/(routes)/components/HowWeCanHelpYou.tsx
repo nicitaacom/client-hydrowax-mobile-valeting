@@ -1,5 +1,6 @@
 import { consts } from "@/consts/consts"
 import Image from "next/image"
+import Link from "next/link"
 import { twMerge } from "tailwind-merge"
 
 interface SocialItemProps {
@@ -35,7 +36,7 @@ function OurService({ className, imgSrc, altText, text }: SocialItemProps) {
 
 export function HowWeCanHelpYou() {
   return (
-    <div className="w-full desktop:max-w-[50vw] bg-foreground rounded-xl border border-red-900/20 flex flex-col gap-y-6 p-6">
+    <div className="w-full desktop:max-w-[50vw] bg-foreground rounded-xl border border-red-900/20 flex flex-col gap-y-4 p-6">
       <div className="flex items-center gap-3">
         <div className="w-1 h-8 bg-red-600 rounded-full" />
         <h2 className="text-2xl font-bold text-title">How we can help you?</h2>
@@ -50,6 +51,31 @@ export function HowWeCanHelpYou() {
           />
         ))}
       </ul>
+
+      {/* Divider */}
+      <div className="flex items-center gap-1">
+        <div className="flex-1 h-px bg-border-color" />
+        <p className="text-subTitle text-xs px-1">or</p>
+        <div className="flex-1 h-px bg-border-color" />
+      </div>
+
+      {/* Alternative Action Button */}
+      <Link
+        className="group w-full bg-foreground-accent hover:bg-brand/20 rounded-lg
+       overflow-hidden transition-all duration-300 hover:scale-[1.02] border border-border-color p-3"
+        href="/booking">
+        <div className="flex items-center justify-between">
+          <div className="text-left">
+            <h3 className="text-title text-lg font-medium">Book an appointment</h3>
+            <p className="text-subTitle text-xs">Skip the form and schedule directly</p>
+          </div>
+          <div className="text-brand group-hover:translate-x-1 transition-transform duration-200">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </Link>
     </div>
   )
 }

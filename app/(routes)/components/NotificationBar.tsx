@@ -22,24 +22,21 @@ export function NotificationBar() {
   return (
     <section className="h-10 bg-gradient-to-r from-red-600 to-red-700 flex justify-around items-center shadow-lg">
       <Item iconSrc="/notification-bar/time.svg" altText="exp" text={`${consts.yoe} years experience`} />
-      <Item
-        className="hidden tablet:flex"
-        iconSrc="/notification-bar/guarantee.svg"
-        altText="grnt"
-        text={`${consts.yog} years guarantee`}
-      />
+      {consts.yog && (
+        <Item
+          className="hidden tablet:flex"
+          iconSrc="/notification-bar/guarantee.svg"
+          altText="grnt"
+          text={`${consts.yog} years guarantee`}
+        />
+      )}
       <Item
         className="hidden laptop:flex"
-        iconSrc="/notification-bar/price-down.svg"
+        iconSrc="/notification-bar/smile.svg"
         altText="prc"
-        text="Best market price"
+        text={consts.notificationBarOffer1}
       />
-      <Item
-        className="hidden laptop:flex"
-        iconSrc="/notification-bar/free.svg"
-        altText="free"
-        text={consts.notificationBarOffer}
-      />
+      <Item className="hidden laptop:flex" iconSrc="/phone.svg" altText="free" text={consts.notificationBarOffer2} />
     </section>
   )
 }

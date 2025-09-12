@@ -13,6 +13,10 @@ declare global {
       AWS_ACCOUNT_ID: string
       AWS_SECRET_ACCESS_KEY: string
       NEXT_PUBLIC_AWS_REGION: string
+
+      TWILIO_ACCOUNT_SID: string
+      TWILIO_ACCOUNT_TOKEN: string
+      TWILIO_PHONE_NUMBER: string
     }
   }
 }

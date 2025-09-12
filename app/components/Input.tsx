@@ -30,11 +30,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           ref={ref}
           className={twMerge(
-            "w-full bg-[#303030] text-lg focus:ring-2 focus:outline-none px-2 py-1",
+            "w-full bg-foreground-accent text-lg border border-border-color rounded-lg",
+            "focus:ring-2 focus:ring-brand/30 focus:border-brand focus:outline-none px-2 py-1",
             "disabled:brightness-50 disabled:cursor-default",
             error
               ? "border-danger focus:border-danger focus:ring-red-200"
-              : "border-gray-300 focus:border-info focus:ring-blue-200",
+              : "border focus:ring-brand/30 focus:border-brand",
             className,
           )}
           aria-invalid={error ? "true" : "false"}

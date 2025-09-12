@@ -22,13 +22,33 @@
     --danger: 0deg 85% 65%;
     --success: 120deg 70% 60%;
   }
+
+  .light {
+    --brand: 0deg 85% 50%; /* Vibrant red */
+    --background: 0deg 0% 98%; /* Near white */
+    --foreground: 0deg 0% 100%; /* Pure white cards */
+    --foreground-accent: 0deg 0% 96%; /* Light gray accent */
+    --title: 0deg 0% 10%; /* Near black text */
+    --title-foreground: 0deg 0% 98%; /* Light text on dark backgrounds */
+    --subTitle: 0deg 0% 40%; /* Dark gray for subtitles */
+
+    /* The same colors */
+    --border-color: 0deg 0% 85%; /* Light borders */
+    --icon-color: 0deg 85% 50%; /* Red icons for accent */
+
+    /* Support colors */
+    --info: 210deg 80% 55%;
+    --warning: 35deg 90% 50%;
+    --danger: 0deg 85% 55%;
+    --success: 120deg 70% 45%;
+  }
 }
 
 html,
 body,
 :root {
   height: 100%;
-  background-color: #202020;
+  background-color: hsl(var(--background));
 }
 
 * {

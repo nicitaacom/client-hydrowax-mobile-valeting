@@ -61,6 +61,7 @@ type CalendarContainerProps = {
   businessHours: BusinessHours
   maxBookingDaysInAdvance: number
   defaultTimezone: string
+  businessOwnerPhone?: string // to receive notifictions about bookings
   appointmentNotePlaceholder?: string
   phonePlaceholder?: string
 }
@@ -68,6 +69,7 @@ type CalendarContainerProps = {
 export default function CalendarContainer({
   businessHours,
   maxBookingDaysInAdvance,
+  businessOwnerPhone,
   defaultTimezone,
   appointmentNotePlaceholder = "Appointment note",
   phonePlaceholder = "Phone",
@@ -142,7 +144,7 @@ export default function CalendarContainer({
     // 3. Book or reschedule
 
     if (editingId) {
-      const response = await rescheduleAppointmentFn(editingId)
+      const response = await rescheduleAppointmentFn(editingId, businessOwnerPhone)
       if (typeof response === "object") {
         setAppointments(
           appointments.map(appt =>
@@ -153,7 +155,7 @@ export default function CalendarContainer({
         resetInputs()
       }
     } else {
-      const response = await bookACallFn()
+      const response = await bookACallFn(businessOwnerPhone)
       if (typeof response === "object") {
         setAppointments([...appointments, response])
         resetInputs()

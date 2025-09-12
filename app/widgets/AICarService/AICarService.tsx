@@ -411,6 +411,7 @@ export function AICarService() {
               businessHours={businessInfo.businessHours}
               maxBookingDaysInAdvance={28}
               defaultTimezone={businessInfo.timezone}
+              businessOwnerPhone={businessInfo.phone}
               phonePlaceholder="e.g +44 123 456 78 90"
             />
           </motion.div>

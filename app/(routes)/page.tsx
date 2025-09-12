@@ -1,5 +1,5 @@
 import { AICarService } from "../widgets/AICarService/AICarService"
-import { ContactUsForm } from "./components/ContactUsForm"
+import { ContactUsForm } from "../widgets/ContactUsForm/ContactUsForm"
 import { Footer } from "./components/Footer"
 import { Header } from "./components/Header/Header"
 import { HowDoWeWork } from "./components/HowDoWeWork"
