@@ -16,6 +16,7 @@ import { useDebounce } from "./hooks/useDebounce"
 import { validateEmail } from "./utils/validateEmailFn"
 import { selectDBAppointmentsAction } from "./actions/selectAppointmentsAction"
 import { IDBAppointment } from "./types/IDBAppointment"
+import { deleteDBAppointmentAction } from "./actions/deleteDBAppointmentAction"
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
@@ -101,9 +102,9 @@ export default function CalendarContainer({
     setUserId(cookieUserId)
     // 2. Fetch user-specific appointments
     async function fetchAppts() {
-      console.log(102, "cookieUserId - ", cookieUserId)
       const selectResponse = await selectDBAppointmentsAction(cookieUserId)
-      selectResponse.error ? console.error(selectResponse.error) : setAppointments(selectResponse.data || [])
+      if (typeof selectResponse === "string") return console.error(selectResponse)
+      else setAppointments(selectResponse)
     }
     fetchAppts()
   }, [setAppointments, setUserId])
@@ -164,8 +165,10 @@ export default function CalendarContainer({
   }
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("appointments").delete().eq("id", id)
-    error ? setError("Error deleting") : setAppointments(appointments.filter(a => a.id !== id))
+    const deleteResponse = await deleteDBAppointmentAction(id)
+    typeof deleteResponse === "string"
+      ? setError(deleteResponse)
+      : setAppointments(appointments.filter(a => a.id !== id))
   }
 
   const handleEdit = (appt: IDBAppointment) => {
