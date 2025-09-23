@@ -1,14 +1,9 @@
 This project created for "Hydrowax Mobile Valeting" business
 Agreement: teseimonial
 
-TODO:
-Update .env.local
-
-add resend API key in supabase - https://i.imgur.com/6EV4HjC.png
-
 This project specific TODO:
-dark/light mode
-SMS once booked
+Get twilio verified in order to send SMS when appointment booked
+Test how appointment booking system work
 
 Checklist:
 package.json

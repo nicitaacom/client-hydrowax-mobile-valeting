@@ -34,10 +34,10 @@ export async function scheduleSMSNtfcnAction(
   const notificationId = crypto.randomUUID()
   const { error: insertError } = await supabase.from("sms_notifications").insert({
     id: notificationId,
+    appointment_id: appointmentId,
     phone: sendNotificationTo,
     message,
     scheduled_for: scheduledFor.toISOString(),
-    appointment_id: appointmentId,
   })
 
   if (insertError)

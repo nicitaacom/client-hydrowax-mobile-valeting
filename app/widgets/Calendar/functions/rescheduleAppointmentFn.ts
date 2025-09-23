@@ -19,13 +19,13 @@ export async function rescheduleAppointmentFn(id: string, sendNotificationTo?: s
     ? (message += `Send notification to ${sendNotificationTo}: ${inputNotificationTo}\n`)
     : null
   appointmentNote.length > 3 ? (message += `Appointment note: ${appointmentNote}\n`) : null
-  message += `Where: ${channel === "google-meets" ? '<a href="https://meet.google.com/yiy-pbnd-ygo?pli=1">google-meets</a>' : channel}\n`
 
   try {
+    if (!sendNotificationTo) throw Error("Add a business phone number - so SMS about rebooking will be send")
     // 1. Notify about rebooking with immediate SMS
-    const rebookMsg = `Appointment rebooked: ${message}`
-    const notifyResp = await sendImmediateSMSAction(sendNotificationTo!, rebookMsg)
-    if (typeof notifyResp === "string") throw Error(notifyResp)
+    const rebookMsg = message
+    const notifyResp = await sendImmediateSMSAction(sendNotificationTo, rebookMsg)
+    if (typeof notifyResp === "string" && notifyResp.includes("Failed")) throw Error(notifyResp)
 
     // 2. Remove old SMS notifications
     const deleteResp = await deleteSMSNtfcnAction(id)

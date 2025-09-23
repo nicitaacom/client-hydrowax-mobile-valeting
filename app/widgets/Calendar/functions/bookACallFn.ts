@@ -37,14 +37,22 @@ export async function bookACallFn(sendNotificationTo?: string) {
   message += `Where: ${channel === "google-meets" ? '<a href="https://meet.google.com/yiy-pbnd-ygo?pli=1">google-meets</a>' : channel}\n`
 
   try {
-    const response = await scheduleSMSNtfcnAction(message, selectedDate, atMSK, channel, sendNotificationTo)
+    const appointmentId = crypto.randomUUID()
+    const response = await scheduleSMSNtfcnAction(
+      message,
+      selectedDate,
+      atMSK,
+      channel,
+      sendNotificationTo,
+      appointmentId,
+    )
     if (typeof response === "string") throw Error(response)
 
     if (!selectedDate) throw Error("It's no selected date")
     if (!selectedTime) throw Error("It's no selected time")
 
     const appointmentObj: IDBAppointment = {
-      id: crypto.randomUUID(),
+      id: appointmentId,
       created_at: moment().toISOString(),
       date: selectedDate,
       user_id: userId,

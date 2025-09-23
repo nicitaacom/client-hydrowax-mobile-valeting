@@ -3,7 +3,7 @@ export const businessInfo = {
   name: "Hydrowax Mobile Valeting",
   yearsInBusiness: 5, // numeric for easy usage in UI
   yearsOfGuarantee: null, // satisfaction guarantee in years
-  phone: "+44 148 226 22 40",
+  phone: "+44 148 226 22 40", // 38 41 it's her personal phone so she would like to receive SMS on 22 40
   timezone: "Europe/London",
   email: "hydrowax22@gmail.com",
   websiteUrl: "https://hydrowax-mobile-valeting.co.uk",
